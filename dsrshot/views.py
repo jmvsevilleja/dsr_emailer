@@ -33,10 +33,16 @@ def get_screenshot(request):
             # driver.set_window_size(width, height)
 
             el = driver.find_element_by_tag_name('body')
-            screenshot = el.get_screenshot_as_png()
+            el.screenshot('screenshot.png')
+
             # screenshot = driver.get_screenshot_as_png()
-            image_64_encode = base64.encodestring(screenshot)
-            var_dict = {'screenshot': image_64_encode}
+
+            screenfile = ''
+            with open("screenshot.png", "rb") as imageFile:
+                screenfile = base64.b64encode(imageFile.read())
+            os.remove('screenshot.png')
+            # image_64_encode = base64.encodestring(screenshot)
+            var_dict = {'screenshot': screenfile}
 
             driver.quit()
             # return render(request, 'index.html', var_dict)
